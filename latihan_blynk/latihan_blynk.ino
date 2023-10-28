@@ -11,11 +11,10 @@ char ssid[] = "Ruang Kerja";//Enter your WIFI name
 char pass[] = "Indonesia45";//Enter your WIFI password
 
 int smokeA0 = A0;
-int smokeD0 = D0;
 int led_biru = D2;
 int led_putih = D3;
 int led_merah = D4;
-int buzzer = D5;
+int buzzer = D0;
 
 int sensorThres = 100;
 
@@ -29,10 +28,6 @@ BLYNK_WRITE(V3) {
 
 BLYNK_WRITE(V4) {
   digitalWrite(D4, param.asInt());
-}
-
-BLYNK_WRITE(V5) {
-  digitalWrite(D0, param.asInt());
 }
 
 void setup() {
@@ -49,29 +44,22 @@ void setup() {
 
 void loop() {
   int analogSensor = analogRead(smokeA0);
-  int digitalSensor = digitalRead(smokeD0);
 
   Serial.print("Pin Analog 0: ");
   Serial.println(analogSensor);
   
   Blynk.virtualWrite(V0, analogSensor);
 
-  Serial.print("Pin digital 0: ");
-  Serial.println(digitalSensor);
-
- // Untuk cek nilai threshold
-
  if (analogSensor > sensorThres)
  {
     tone(buzzer, 1000, 200);
     Serial.print("Message: Terdeteksi Asap! ");
-    digitalWrite(led_biru, HIGH);
+    Blynk.logEvent("Terdeteksi Asap!");
     delay(200);
  }
  else
  {
    noTone(buzzer);
-   digitalWrite(led_biru, LOW);
  }
  delay(1000);
  Blynk.run();
