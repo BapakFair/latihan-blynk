@@ -7,27 +7,40 @@
 #include <BlynkSimpleEsp8266.h>
 
 char auth[] = BLYNK_AUTH_TOKEN;
-char ssid[] = "Kopi Rahayu";//Enter your WIFI name
-char pass[] = "indonesia123";//Enter your WIFI password
+char ssid[] = "Ruang Kerja";//Enter your WIFI name
+char pass[] = "Indonesia45";//Enter your WIFI password
 
-// int buzzer = D4;
 int smokeA0 = A0;
 int smokeD0 = D0;
-int led = D3;
-// int ledPutih = D1;
+int led_biru = D2;
+int led_putih = D3;
+int led_merah = D4;
+int buzzer = D5;
 
 int sensorThres = 100;
 
-BLYNK_WRITE(V1) {
+BLYNK_WRITE(V2) {
+  digitalWrite(D2, param.asInt());
+}
+
+BLYNK_WRITE(V3) {
   digitalWrite(D3, param.asInt());
 }
 
+BLYNK_WRITE(V4) {
+  digitalWrite(D4, param.asInt());
+}
+
+BLYNK_WRITE(V5) {
+  digitalWrite(D0, param.asInt());
+}
+
 void setup() {
-  // pinMode(buzzer, OUTPUT);
+  pinMode(buzzer, OUTPUT);
   pinMode(smokeA0, INPUT);
-  // pinMode(smokeD0, INPUT);
-  pinMode(led, OUTPUT);
-  // pinMode(ledPutih, OUTPUT);
+  pinMode(led_biru, OUTPUT);
+  pinMode(led_putih, OUTPUT);
+  pinMode(led_merah, OUTPUT);
 
   Blynk.begin(auth, ssid, pass, "blynk.cloud", 80);
 
@@ -52,13 +65,13 @@ void loop() {
  {
     tone(buzzer, 1000, 200);
     Serial.print("Message: Terdeteksi Asap! ");
-    digitalWrite(led, HIGH);
+    digitalWrite(led_biru, HIGH);
     delay(200);
  }
  else
  {
    noTone(buzzer);
-   digitalWrite(led, LOW);
+   digitalWrite(led_biru, LOW);
  }
  delay(1000);
  Blynk.run();
