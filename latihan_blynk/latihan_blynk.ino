@@ -54,7 +54,7 @@ void loop() {
  {
     tone(buzzer, 1000, 200);
     Serial.print("Message: Terdeteksi Asap! ");
-    Blynk.logEvent("Terdeteksi Asap!");
+    Blynk.logEvent("status_asap", String("Terdeteksi Asap!: ") + analogSensor);
     delay(200);
  }
  else
